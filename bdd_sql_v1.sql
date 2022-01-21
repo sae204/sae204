@@ -1,3 +1,7 @@
+DROP  TABLE IF EXISTS vetements;
+DROP  TABLE IF EXISTS typeVetements;
+
+
 CREATE TABLE typeVetements(
    Id_typeVetements COUNTER,
    libelle VARCHAR(50),
