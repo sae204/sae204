@@ -1,7 +1,7 @@
-CREATE TABLE type_vetements(
-   Id_typeVetements COUNTER,
+CREATE TABLE type_vetement(
+   id_type_vetement COUNTER,
    libelle_type_vetement VARCHAR(50),
-   PRIMARY KEY(Id_typeVetements)
+   PRIMARY KEY(id_type_vetement)
 );
 
 CREATE TABLE couleur(
@@ -11,92 +11,94 @@ CREATE TABLE couleur(
 );
 
 CREATE TABLE panier(
-   Id_panier COUNTER,
-   date_ajout DATE,
+   id_panier COUNTER,
    total DECIMAL(15,2),
-   PRIMARY KEY(Id_panier)
-);
-
-CREATE TABLE role(
-   Id_role COUNTER,
-   libelle_role VARCHAR(50),
-   PRIMARY KEY(Id_role)
+   PRIMARY KEY(id_panier)
 );
 
 CREATE TABLE taille(
-   Id_taille COUNTER,
+   id_taille COUNTER,
    libelle_taille VARCHAR(50),
-   PRIMARY KEY(Id_taille)
+   PRIMARY KEY(id_taille)
 );
 
 CREATE TABLE fournisseur(
-   Id_fournisseur COUNTER,
-   PRIMARY KEY(Id_fournisseur)
+   id_fournisseur COUNTER,
+   PRIMARY KEY(id_fournisseur)
 );
 
 CREATE TABLE date_arrivage(
-   Id_date_arrivage COUNTER,
-   PRIMARY KEY(Id_date_arrivage)
+   id_date_arrivage COUNTER,
+   PRIMARY KEY(id_date_arrivage)
 );
 
-CREATE TABLE vetements(
-   Id_vetement COUNTER,
+CREATE TABLE vetement(
+   id_vetement COUNTER,
    descriptif VARCHAR(100),
-   prixDeBase DECIMAL(15,2) NOT NULL,
-   Id_typeVetements INT NOT NULL,
-   PRIMARY KEY(Id_vetement),
-   FOREIGN KEY(Id_typeVetements) REFERENCES type_vetements(Id_typeVetements)
-);
-
-CREATE TABLE commande(
-   Id_commande COUNTER,
-   date_commande DATE,
-   Id_panier INT NOT NULL,
-   PRIMARY KEY(Id_commande),
-   UNIQUE(Id_panier),
-   FOREIGN KEY(Id_panier) REFERENCES panier(Id_panier)
+   prix_de_base DECIMAL(15,2) NOT NULL,
+   id_type_vetement INT NOT NULL,
+   PRIMARY KEY(id_vetement),
+   FOREIGN KEY(id_type_vetement) REFERENCES type_vetement(id_type_vetement)
 );
 
 CREATE TABLE utilisateur(
-   Id_utilisateur COUNTER,
+   id_utilisateur COUNTER,
    username VARCHAR(50),
    mot_de_passe VARCHAR(50),
    est_actif LOGICAL,
    adresse_mail VARCHAR(50),
-   Id_role INT NOT NULL,
-   Id_panier INT NOT NULL,
-   PRIMARY KEY(Id_utilisateur),
-   FOREIGN KEY(Id_role) REFERENCES role(Id_role),
-   FOREIGN KEY(Id_panier) REFERENCES panier(Id_panier)
+   role VARCHAR(255),
+   id_panier INT NOT NULL,
+   PRIMARY KEY(id_utilisateur),
+   FOREIGN KEY(id_panier) REFERENCES panier(id_panier)
+);
+
+CREATE TABLE etat_commande(
+   id_etat_commande COUNTER,
+   libelle_etat VARCHAR(50),
+   id_utilisateur INT,
+   PRIMARY KEY(id_etat_commande),
+   FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur)
+);
+
+CREATE TABLE commande(
+   id_commande COUNTER,
+   date_commande DATE,
+   id_etat_commande INT NOT NULL,
+   id_panier INT NOT NULL,
+   PRIMARY KEY(id_commande),
+   UNIQUE(id_panier),
+   FOREIGN KEY(id_etat_commande) REFERENCES etat_commande(id_etat_commande),
+   FOREIGN KEY(id_panier) REFERENCES panier(id_panier)
 );
 
 CREATE TABLE est_de(
-   Id_vetement INT,
+   id_vetement INT,
    id_couleur VARCHAR(50),
-   Id_taille INT,
+   id_taille INT,
    stock VARCHAR(50),
-   PRIMARY KEY(Id_vetement, id_couleur, Id_taille),
-   FOREIGN KEY(Id_vetement) REFERENCES vetements(Id_vetement),
+   PRIMARY KEY(id_vetement, id_couleur, id_taille),
+   FOREIGN KEY(id_vetement) REFERENCES vetement(id_vetement),
    FOREIGN KEY(id_couleur) REFERENCES couleur(id_couleur),
-   FOREIGN KEY(Id_taille) REFERENCES taille(Id_taille)
+   FOREIGN KEY(id_taille) REFERENCES taille(id_taille)
 );
 
-CREATE TABLE Asso_8(
-   Id_vetement INT,
-   Id_panier INT,
+CREATE TABLE contenu(
+   id_vetement INT,
+   id_panier INT,
    quantite VARCHAR(50),
-   PRIMARY KEY(Id_vetement, Id_panier),
-   FOREIGN KEY(Id_vetement) REFERENCES vetements(Id_vetement),
-   FOREIGN KEY(Id_panier) REFERENCES panier(Id_panier)
+   PRIMARY KEY(id_vetement, id_panier),
+   FOREIGN KEY(id_vetement) REFERENCES vetement(id_vetement),
+   FOREIGN KEY(id_panier) REFERENCES panier(id_panier)
 );
 
 CREATE TABLE livre(
-   Id_vetement INT,
-   Id_fournisseur INT,
-   Id_date_arrivage INT,
+   id_vetement INT,
+   id_fournisseur INT,
+   id_date_arrivage INT,
    quantite_arrivage INT,
-   PRIMARY KEY(Id_vetement, Id_fournisseur, Id_date_arrivage),
-   FOREIGN KEY(Id_vetement) REFERENCES vetements(Id_vetement),
-   FOREIGN KEY(Id_fournisseur) REFERENCES fournisseur(Id_fournisseur),
-   FOREIGN KEY(Id_date_arrivage) REFERENCES date_arrivage(Id_date_arrivage)
+   PRIMARY KEY(id_vetement, id_fournisseur, id_date_arrivage),
+   FOREIGN KEY(id_vetement) REFERENCES vetement(id_vetement),
+   FOREIGN KEY(id_fournisseur) REFERENCES fournisseur(id_fournisseur),
+   FOREIGN KEY(id_date_arrivage) REFERENCES date_arrivage(id_date_arrivage)
 );
