@@ -1,5 +1,19 @@
-CREATE TABLE type_vetement(
-   id_type_vetement COUNTER,
+DROP TABLE IF EXISTS livre;
+DROP TABLE IF EXISTS contenu;
+DROP TABLE IF EXISTS est_de;
+DROP TABLE IF EXISTS commande;
+DROP TABLE IF EXISTS etat_commande;
+DROP TABLE IF EXISTS utilisateur;
+DROP TABLE IF EXISTS vetement;
+DROP TABLE IF EXISTS date_arrivage;
+DROP TABLE IF EXISTS fournisseur;
+DROP TABLE IF EXISTS taille;
+DROP TABLE IF EXISTS panier;
+DROP TABLE IF EXISTS couleur;
+DROP TABLE IF EXISTS type_vetements;
+
+CREATE TABLE type_vetements(
+   id_type_vetement INT AUTO_INCREMENT,
    libelle_type_vetement VARCHAR(50),
    PRIMARY KEY(id_type_vetement)
 );
@@ -11,38 +25,41 @@ CREATE TABLE couleur(
 );
 
 CREATE TABLE panier(
-   id_panier COUNTER,
+   id_panier INT AUTO_INCREMENT,
    total DECIMAL(15,2),
    PRIMARY KEY(id_panier)
 );
 
 CREATE TABLE taille(
-   id_taille COUNTER,
+   id_taille INT AUTO_INCREMENT,
    libelle_taille VARCHAR(50),
    PRIMARY KEY(id_taille)
 );
 
 CREATE TABLE fournisseur(
-   id_fournisseur COUNTER,
+   id_fournisseur INT AUTO_INCREMENT,
+   nom_fournisseur VARCHAR (50),
    PRIMARY KEY(id_fournisseur)
 );
 
 CREATE TABLE date_arrivage(
-   id_date_arrivage COUNTER,
+   id_date_arrivage INT AUTO_INCREMENT,
    PRIMARY KEY(id_date_arrivage)
 );
 
 CREATE TABLE vetement(
-   id_vetement COUNTER,
+   id_vetement INT AUTO_INCREMENT,
+   libelle_vetement VARCHAR(50),
    descriptif VARCHAR(100),
    prix_de_base DECIMAL(15,2) NOT NULL,
    id_type_vetement INT NOT NULL,
+   image VARCHAR (50),
    PRIMARY KEY(id_vetement),
-   FOREIGN KEY(id_type_vetement) REFERENCES type_vetement(id_type_vetement)
+   FOREIGN KEY(id_type_vetement) REFERENCES type_vetements(id_type_vetement)
 );
 
 CREATE TABLE utilisateur(
-   id_utilisateur COUNTER,
+   id_utilisateur INT AUTO_INCREMENT,
    username VARCHAR(50),
    mot_de_passe VARCHAR(50),
    est_actif LOGICAL,
@@ -54,7 +71,7 @@ CREATE TABLE utilisateur(
 );
 
 CREATE TABLE etat_commande(
-   id_etat_commande COUNTER,
+   id_etat_commande INT AUTO_INCREMENT,
    libelle_etat VARCHAR(50),
    id_utilisateur INT,
    PRIMARY KEY(id_etat_commande),
@@ -62,7 +79,7 @@ CREATE TABLE etat_commande(
 );
 
 CREATE TABLE commande(
-   id_commande COUNTER,
+   id_commande INT AUTO_INCREMENT,
    date_commande DATE,
    id_etat_commande INT NOT NULL,
    id_panier INT NOT NULL,
@@ -102,3 +119,9 @@ CREATE TABLE livre(
    FOREIGN KEY(id_fournisseur) REFERENCES fournisseur(id_fournisseur),
    FOREIGN KEY(id_date_arrivage) REFERENCES date_arrivage(id_date_arrivage)
 );
+
+# user (id,username, password, role, est_actif, pseudo, email)
+# commande (id, date_achat, #user_id, #etat_id)
+# ligne_commande ( #commande_id , #article_id , prix_unit, quantite)
+# panier (id, date_ajout,  #user_id , #article_id, prix_unit, quantite)
+# etat (id, libelle )
