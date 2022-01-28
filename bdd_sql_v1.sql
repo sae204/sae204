@@ -62,7 +62,7 @@ CREATE TABLE utilisateur(
    id_utilisateur INT AUTO_INCREMENT,
    username VARCHAR(50),
    mot_de_passe VARCHAR(50),
-   est_actif LOGICAL,
+   est_actif BIT,
    adresse_mail VARCHAR(50),
    role VARCHAR(255),
    id_panier INT NOT NULL,
