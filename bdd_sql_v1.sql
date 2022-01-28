@@ -19,7 +19,7 @@ CREATE TABLE type_vetements(
 );
 
 CREATE TABLE couleur(
-   id_couleur VARCHAR(50),
+   id_couleur INT AUTO_INCREMENT,
    libelle_couleur VARCHAR(50),
    PRIMARY KEY(id_couleur)
 );
