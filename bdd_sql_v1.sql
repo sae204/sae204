@@ -65,7 +65,7 @@ CREATE TABLE utilisateur(
    est_actif BIT,
    adresse_mail VARCHAR(50),
    role VARCHAR(255),
-   id_panier INT NOT NULL,
+   id_panier INT,
    PRIMARY KEY(id_utilisateur),
    FOREIGN KEY(id_panier) REFERENCES panier(id_panier)
 );
@@ -78,6 +78,7 @@ CREATE TABLE etat_commande(
    FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur)
 );
 
+
 CREATE TABLE commande(
    id_commande INT AUTO_INCREMENT,
    date_commande DATE,
@@ -89,16 +90,18 @@ CREATE TABLE commande(
    FOREIGN KEY(id_panier) REFERENCES panier(id_panier)
 );
 
+
 CREATE TABLE est_de(
    id_vetement INT,
-   id_couleur VARCHAR(50),
+   id_couleur INT,
    id_taille INT,
-   stock VARCHAR(50),
+   stock INT,
    PRIMARY KEY(id_vetement, id_couleur, id_taille),
    FOREIGN KEY(id_vetement) REFERENCES vetement(id_vetement),
    FOREIGN KEY(id_couleur) REFERENCES couleur(id_couleur),
    FOREIGN KEY(id_taille) REFERENCES taille(id_taille)
 );
+
 
 CREATE TABLE contenu(
    id_vetement INT,
@@ -119,6 +122,7 @@ CREATE TABLE livre(
    FOREIGN KEY(id_fournisseur) REFERENCES fournisseur(id_fournisseur),
    FOREIGN KEY(id_date_arrivage) REFERENCES date_arrivage(id_date_arrivage)
 );
+
 
 # user (id,username, password, role, est_actif, pseudo, email)
 # commande (id, date_achat, #user_id, #etat_id)
