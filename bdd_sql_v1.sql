@@ -209,19 +209,19 @@ INSERT INTO taille (libelle_taille) VALUES ("XXL");
 INSERT INTO taille (libelle_taille) VALUES ("taille unique");
 
 #insert fournisseur
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Superdry");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Lacost");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Tommy hilfiger");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Nike");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Adidas");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Roxy");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Only");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Kaporal");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Temps des cerises");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Louis viutton");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Hermès");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Gucci");
-INSERT INTO fournisseur (nom_fournisseur) VALUES ("Zara");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Superdry");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Lacost");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Tommy hilfiger");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Nike");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Adidas");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Roxy");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Only");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Kaporal");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Temps des cerises");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Louis viutton");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Hermès");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Gucci");
+INSERT INTO fournisseur (libelle_fournisseur) VALUES ("Zara");
 
 # insert admin
 INSERT INTO utilisateur (username,mot_de_passe,adresse_mail,role) VALUES ("admin1","sha256$pBGlZy6UukyHBFDH$2f089c1d26f2741b68c9218a68bfe2e25dbb069c27868a027dad03bcb3d7f69a","admin1@gmail.com","admin");
