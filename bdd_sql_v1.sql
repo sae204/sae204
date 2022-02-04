@@ -230,7 +230,7 @@ INSERT INTO utilisateur (username,mot_de_passe,adresse_mail,role) VALUES ("admin
 
 # insert vetement
 
-INSERT INTO vetement (libelle_vetement,descriptif,prix_de_base,id_type_vetement,image) VALUES
+INSERT INTO vetement (nom_vetement,descriptif,prix_de_base,id_type_vetement,image) VALUES
     ('T-shirt','T-shirt ?',12.5,6,'/static/images/tshirtbleu.jpg'),
     ('Pantalons','Pantalons ?',14.5,1,'/static/images/pantalon.jpg'),
     ('Jupes','Jupes ?',15.5,2,'/static/images/jupe.jpg'),
@@ -260,16 +260,16 @@ INSERT INTO vetement (libelle_vetement,descriptif,prix_de_base,id_type_vetement,
 
 SELECT * FROM fournisseur;
 SELECT * FROM taille;
-SELECT * FROM type_vetements;
+SELECT * FROM type_vetement;
 SELECT * FROM couleur;
 SELECT * FROM vetement;
 
 
 
-SELECT vetement.id_vetement,libelle_vetement,prix_de_base,libelle_type_vetement,nom_fournisseur,libelle_couleur
+SELECT vetement.id_vetement,nom_vetement,prix_de_base,libelle_type_vetement,nom_fournisseur,libelle_couleur
              FROM vetement
              LEFT JOIN est_de ON est_de.id_vetement = vetement.id_vetement
              LEFT JOIN couleur ON couleur.id_couleur = est_de.id_couleur
-             LEFT JOIN type_vetements ON type_vetements.id_type_vetement = vetement.id_type_vetement
+             LEFT JOIN type_vetement ON type_vetement.id_type_vetement = vetement.id_type_vetement
              JOIN livre on vetement.id_vetement=livre.id_vetement
              JOIN fournisseur on fournisseur.id_fournisseur=livre.id_fournisseur;
