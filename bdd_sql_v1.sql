@@ -12,75 +12,90 @@ DROP TABLE IF EXISTS panier;
 DROP TABLE IF EXISTS couleur;
 DROP TABLE IF EXISTS type_vetements;
 
-CREATE TABLE type_vetements(
-   id_type_vetement INT AUTO_INCREMENT,
+CREATE TABLE type_vetement(
+   id_type_vetement COUNTER,
    libelle_type_vetement VARCHAR(50),
    PRIMARY KEY(id_type_vetement)
 );
 
 CREATE TABLE couleur(
-   id_couleur INT AUTO_INCREMENT,
+   id_couleur COUNTER,
    libelle_couleur VARCHAR(50),
    PRIMARY KEY(id_couleur)
 );
 
 CREATE TABLE panier(
-   id_panier INT AUTO_INCREMENT,
+   id_panier COUNTER,
    total DECIMAL(15,2),
    PRIMARY KEY(id_panier)
 );
 
 CREATE TABLE taille(
-   id_taille INT AUTO_INCREMENT,
+   id_taille COUNTER,
    libelle_taille VARCHAR(50),
    PRIMARY KEY(id_taille)
 );
 
 CREATE TABLE fournisseur(
-   id_fournisseur INT AUTO_INCREMENT,
-   nom_fournisseur VARCHAR (50),
+   id_fournisseur COUNTER,
+   libelle_fournisseur VARCHAR(50),
    PRIMARY KEY(id_fournisseur)
 );
 
-CREATE TABLE date_arrivage(
-   id_date_arrivage INT AUTO_INCREMENT,
-   PRIMARY KEY(id_date_arrivage)
+CREATE TABLE date_heure(
+   id_date DATETIME,
+   PRIMARY KEY(id_date)
+);
+
+CREATE TABLE note(
+   id_note COUNTER,
+   valeur_note VARCHAR(50),
+   PRIMARY KEY(id_note)
 );
 
 CREATE TABLE vetement(
-   id_vetement INT AUTO_INCREMENT,
-   libelle_vetement VARCHAR(50),
+   id_vetement COUNTER,
+   nom_vetement VARCHAR(50),
    descriptif VARCHAR(100),
    prix_de_base DECIMAL(15,2) NOT NULL,
    id_type_vetement INT NOT NULL,
-   image VARCHAR (50),
    PRIMARY KEY(id_vetement),
-   FOREIGN KEY(id_type_vetement) REFERENCES type_vetements(id_type_vetement)
+   FOREIGN KEY(id_type_vetement) REFERENCES type_vetement(id_type_vetement)
 );
 
 CREATE TABLE utilisateur(
-   id_utilisateur INT AUTO_INCREMENT,
+   id_utilisateur COUNTER,
    username VARCHAR(50),
    mot_de_passe VARCHAR(50),
-   est_actif BIT,
+   est_actif LOGICAL,
    adresse_mail VARCHAR(50),
    role VARCHAR(255),
-   id_panier INT,
+   id_panier INT NOT NULL,
    PRIMARY KEY(id_utilisateur),
    FOREIGN KEY(id_panier) REFERENCES panier(id_panier)
 );
 
 CREATE TABLE etat_commande(
-   id_etat_commande INT AUTO_INCREMENT,
+   id_etat_commande COUNTER,
    libelle_etat VARCHAR(50),
    id_utilisateur INT,
    PRIMARY KEY(id_etat_commande),
    FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur)
 );
 
+CREATE TABLE commentaire(
+   id_commentaire COUNTER,
+   texte VARCHAR(255),
+   id_utilisateur INT NOT NULL,
+   id_note INT NOT NULL,
+   PRIMARY KEY(id_commentaire),
+   UNIQUE(id_utilisateur),
+   FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur),
+   FOREIGN KEY(id_note) REFERENCES note(id_note)
+);
 
 CREATE TABLE commande(
-   id_commande INT AUTO_INCREMENT,
+   id_commande COUNTER,
    date_commande DATE,
    id_etat_commande INT NOT NULL,
    id_panier INT NOT NULL,
@@ -89,7 +104,6 @@ CREATE TABLE commande(
    FOREIGN KEY(id_etat_commande) REFERENCES etat_commande(id_etat_commande),
    FOREIGN KEY(id_panier) REFERENCES panier(id_panier)
 );
-
 
 CREATE TABLE est_de(
    id_vetement INT,
@@ -102,11 +116,10 @@ CREATE TABLE est_de(
    FOREIGN KEY(id_taille) REFERENCES taille(id_taille)
 );
 
-
-CREATE TABLE contenu(
+CREATE TABLE est_contenu_dans(
    id_vetement INT,
    id_panier INT,
-   quantite VARCHAR(50),
+   quantite_vetement VARCHAR(50),
    PRIMARY KEY(id_vetement, id_panier),
    FOREIGN KEY(id_vetement) REFERENCES vetement(id_vetement),
    FOREIGN KEY(id_panier) REFERENCES panier(id_panier)
@@ -115,13 +128,39 @@ CREATE TABLE contenu(
 CREATE TABLE livre(
    id_vetement INT,
    id_fournisseur INT,
-   id_date_arrivage INT,
+   id_date DATETIME,
    quantite_arrivage INT,
-   PRIMARY KEY(id_vetement, id_fournisseur, id_date_arrivage),
+   PRIMARY KEY(id_vetement, id_fournisseur, id_date),
    FOREIGN KEY(id_vetement) REFERENCES vetement(id_vetement),
    FOREIGN KEY(id_fournisseur) REFERENCES fournisseur(id_fournisseur),
-   FOREIGN KEY(id_date_arrivage) REFERENCES date_arrivage(id_date_arrivage)
+   FOREIGN KEY(id_date) REFERENCES date_heure(id_date)
 );
+
+CREATE TABLE est_posté_le(
+   id_date DATETIME,
+   id_commentaire INT,
+   PRIMARY KEY(id_date, id_commentaire),
+   FOREIGN KEY(id_date) REFERENCES date_heure(id_date),
+   FOREIGN KEY(id_commentaire) REFERENCES commentaire(id_commentaire)
+);
+
+CREATE TABLE ligne_commande(
+   id_vetement INT,
+   id_commande INT,
+   quantite_vetement_commande VARCHAR(50),
+   PRIMARY KEY(id_vetement, id_commande),
+   FOREIGN KEY(id_vetement) REFERENCES vetement(id_vetement),
+   FOREIGN KEY(id_commande) REFERENCES commande(id_commande)
+);
+
+CREATE TABLE concerne(
+   id_vetement INT,
+   id_commentaire INT,
+   PRIMARY KEY(id_vetement, id_commentaire),
+   FOREIGN KEY(id_vetement) REFERENCES vetement(id_vetement),
+   FOREIGN KEY(id_commentaire) REFERENCES commentaire(id_commentaire)
+);
+
 
 
 # user (id,username, password, role, est_actif, pseudo, email)
