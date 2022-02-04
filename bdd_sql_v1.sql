@@ -266,7 +266,7 @@ SELECT * FROM vetement;
 
 
 
-SELECT vetement.id_vetement,nom_vetement,prix_de_base,libelle_type_vetement,nom_fournisseur,libelle_couleur
+SELECT vetement.id_vetement,nom_vetement,prix_de_base,libelle_type_vetement,libelle_fournisseur,libelle_couleur
              FROM vetement
              LEFT JOIN est_de ON est_de.id_vetement = vetement.id_vetement
              LEFT JOIN couleur ON couleur.id_couleur = est_de.id_couleur
